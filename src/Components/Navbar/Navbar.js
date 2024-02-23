@@ -13,6 +13,7 @@ const Navbar = () => {
   const handleLogout = () => {
     // localStorage.removeItem("username");
     localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("logInUserData");
     // setIsLoggedIn(false);
   };
 

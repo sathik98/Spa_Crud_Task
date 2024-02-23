@@ -32,43 +32,58 @@ const Login = () => {
     });
   };
 
+ 
   // method1
   const handleSubmit = async (e) => {
     // e.preventDefault();
+    setError(""); // Clear any previous errors
     if (!formData.email || !formData.password) {
-      setError('Email and password are required');
+      setError("Email and password are required");
       return;
     }
     try {
       const response = await axios.post(
-        "https://crudcrud.com/api/2967e627f58346bb867e5bf8c166bda8/login",
+        "https://crudcrud.com/api/78d5eea282ce42a396fa546f20763035/login",
         {
           email: formData.email,
           password: formData.password,
         }
       );
       const user = response.data;
-      // Check if user exists in response
-      if (user) {
-        // Handle successful login
-        console.log("Login successful:", user);
-        toast.success("Login Successfully");
-        setTimeout(() => {
-          // Redirect user to TablePage
-          navigate("/TablePage");
-        }, 1500);
-      } else {
-        // Handle invalid credentials
-        setError("Invalid email or password");
+      // Retrieve signup credentials from localStorage
+      const storedUserData = localStorage.getItem("SignupUserData");
+      // Check if user exists in response and signup credentials match
+      if (user && storedUserData) {
+        const signupUserData = JSON.parse(storedUserData);
+        if (
+          signupUserData.email === formData.email &&
+          signupUserData.password === formData.password
+        ) {
+          // Store login credentials in localStorage
+          localStorage.setItem(
+            "logInUserData",
+            JSON.stringify({ email: formData.email, password: formData.password })
+          );
+          // Handle successful login
+          console.log("Login successful:", user);
+          toast.success("Login Successfully");
+          setTimeout(() => {
+            // Redirect user to TablePage
+            navigate("/TablePage");
+          }, 1500);
+          return;
+        }
       }
+      // Handle invalid credentials or mismatch between signup and login credentials
+      setError("Invalid email or password");
     } catch (error) {
       // Handle login error
       console.error("Login failed:", error);
       setError("Login failed. Please try again.");
     }
   };
-
-  // method 2
+  
+  // method 2(not used)
   useEffect(() => {
     const loggedInStatus = localStorage.getItem("isLoggedIn");
     setIsLoggedIn(loggedInStatus === "true");
