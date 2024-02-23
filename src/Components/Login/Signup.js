@@ -28,7 +28,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://crudcrud.com/api/78d5eea282ce42a396fa546f20763035/organizations",
+        "https://crudcrud.com/api/203a5fec37e9457687bb77c9f48fdfa7/organizations",
         formData
       );
       // Handle successful registration
