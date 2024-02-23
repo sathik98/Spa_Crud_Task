@@ -7,33 +7,33 @@ import TablePage from "./Components/TablePage/TablePage";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import PrivateRoutes from "./Components/privateroutes";
 import { ToastContainer } from "react-toastify";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Organization from "./Components/Organization/Organization";
 function App() {
   var logintest = localStorage.getItem("login");
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
   return (
     <Router>
       <div className="App">
         <ToastContainer limit={1} />
-        <>
-          {logintest == "false" ? (
-            <>
-              <Route element={<TablePage />} path="/"></Route>
-            </>
-          ) : (
-            <Routes>
-              <Route element={<PrivateRoutes />} path="/" exact />
-              {/* <Route path="/login" element={<Login />} /> */}
+        <Routes>
+          <Route
+            path="/"
+            element={isLoggedIn ? <PrivateRoutes /> : <Navigate to="/login" />}
+          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/TablePage" element={<TablePage />} />
+          <Route path="/Organization" element={<Organization />} />
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route element={<TablePage />} path="/TablePage"></Route>
-
-              <Route element={<Organization />} path="/Organization"></Route>
-            </Routes>
-          )}
-        </>
+          {/* Add more routes as needed */}
+        </Routes>
       </div>
     </Router>
   );

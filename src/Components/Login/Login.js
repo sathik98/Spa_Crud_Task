@@ -32,7 +32,6 @@ const Login = () => {
     });
   };
 
- 
   // method1
   const handleSubmit = async (e) => {
     // e.preventDefault();
@@ -50,19 +49,19 @@ const Login = () => {
         }
       );
       const user = response.data;
-      // Retrieve signup credentials from localStorage
       const storedUserData = localStorage.getItem("SignupUserData");
-      // Check if user exists in response and signup credentials match
       if (user && storedUserData) {
         const signupUserData = JSON.parse(storedUserData);
         if (
           signupUserData.email === formData.email &&
           signupUserData.password === formData.password
         ) {
-          // Store login credentials in localStorage
           localStorage.setItem(
             "logInUserData",
-            JSON.stringify({ email: formData.email, password: formData.password })
+            JSON.stringify({
+              email: formData.email,
+              password: formData.password,
+            })
           );
           // Handle successful login
           console.log("Login successful:", user);
@@ -82,7 +81,7 @@ const Login = () => {
       setError("Login failed. Please try again.");
     }
   };
-  
+
   // method 2(not used)
   useEffect(() => {
     const loggedInStatus = localStorage.getItem("isLoggedIn");
