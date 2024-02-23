@@ -1,5 +1,7 @@
 import "./App.css";
 import Login from "./Components/Login/Login";
+
+import Signup from "./Components/Login/Signup";
 import Navbar from "./Components/Navbar/Navbar";
 import TablePage from "./Components/TablePage/TablePage";
 import Sidebar from "./Components/Sidebar/Sidebar";
@@ -17,14 +19,15 @@ function App() {
         <>
           {logintest == "false" ? (
             <>
-              <Navbar />
-              <Sidebar />
               <Route element={<TablePage />} path="/"></Route>
             </>
           ) : (
             <Routes>
               <Route element={<PrivateRoutes />} path="/" exact />
+              {/* <Route path="/login" element={<Login />} /> */}
+
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route element={<TablePage />} path="/TablePage"></Route>
 
               <Route element={<Organization />} path="/Organization"></Route>

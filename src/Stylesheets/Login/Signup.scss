@@ -1,0 +1,230 @@
+.login-page-main-wrapper {
+    background-color: #e3e3e3;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  
+    .login_inner-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+  
+      .input-field-wrapper {
+        //  width: 55%;
+        width: 48%;
+        //   border: 1px solid black;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 24px 64px #26214a1a;
+        border-radius: 12px;
+        padding: 30px 60px;
+  
+        @media screen and (min-width: 1000px) and (max-width: 1400px) {
+          width: 50%;
+          // border: 1px solid;
+        }
+  
+        @media screen and (min-width: 700px) and (max-width: 1000px) {
+          width: 75%;
+          // border: 1px solid;
+        }
+  
+        @media screen and (min-width: 500px) and (max-width: 700px) {
+          width: 70%;
+          // border: 1px solid green;
+        }
+  
+        @media screen and (min-width: 400px) and (max-width: 500px) {
+          width: 60%;
+          // border: 1px solid brown;
+        }
+  
+        @media screen and (min-width: 100px) and (max-width: 400px) {
+          width: 80%;
+          // border: 1px solid brown;
+        }
+  
+        .Header_content {
+          button {
+            border: none;
+            outline: none;
+            background-color: transparent;
+  
+            h3 {
+              font-size: 32px;
+              font-weight: 700;
+              line-height: 46px;
+              color: #292d34;
+              text-align: center;
+            }
+          }
+  
+          @media screen and (min-width: 100px) and (max-width: 500px) {
+            h3 {
+              font-size: 18px;
+            }
+  
+            p {
+              font-size: 13px;
+            }
+          }
+        }
+  
+        .login-fields-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          //  margin-top: 40px;
+  
+          .hide {
+            display: none;
+          }
+  
+          .show {
+            display: block;
+            margin-top: -20px;
+            text-align: left;
+            margin-bottom: 20px;
+          }
+  
+          svg {
+            color: red;
+            width: 15px;
+            height: 15px;
+          }
+  
+          .activate {
+            -webkit-text-security: none;
+          }
+  
+          .notactivate {
+            -webkit-text-security: disc;
+            color: #7a7a7a;
+          }
+  
+          .Form_inner_fileds {
+            width: 70%;
+  
+            @media screen and (min-width: 500px) and (max-width: 700px) {
+              width: 90%;
+            }
+  
+            @media screen and (min-width: 100px) and (max-width: 500px) {
+              width: 98%;
+            }
+          }
+  
+          .label {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 500;
+            // line-height: 11px;
+            // display: block;
+            color: #292d34;
+            // padding: 0 0 8px 2px;
+  
+            @media screen and (min-width: 100px) and (max-width: 500px) {
+              font-size: 15px;
+            }
+          }
+  
+          input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            border-radius: 0px;
+            padding-right: 23px;
+            padding-left: 35px;
+  
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, roboto,
+              Helvetica Neue, helvetica, arial, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1;
+            border: 1px solid #d6d9de;
+            box-sizing: border-box;
+            border-radius: 9px;
+            // padding: 0 20px 0 36px;
+            // height: 40px;
+  
+            @media screen and (min-width: 100px) and (max-width: 500px) {
+              font-size: 13px;
+            }
+  
+            &:focus-visible {
+              border: 1px solid gray !important;
+              border-radius: 0px !important;
+              outline: none;
+            }
+          }
+  
+          // input::placeholder {
+          //     // color: red;
+          //     padding-left: 20px;
+          // }
+          .icon {
+            position: absolute;
+            color: #b9bec7;
+            display: flex;
+            margin-top: -67px;
+            margin-left: 5px;
+  
+            svg {
+              color: #b9bec7;
+              width: 25px;
+              height: 25px;
+            }
+          }
+  
+          button {
+            width: 100%;
+            padding: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 0px;
+            background-color: #005f61;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 30px;
+            // box-shadow: 0 10px 25px red;
+  
+            @media screen and (min-width: 100px) and (max-width: 500px) {
+              font-size: 13px;
+            }
+          }
+  
+          button:hover {
+            background-color: #548e8e;
+          }
+  
+          .Footer_content {
+            text-align: right;
+  
+            .forget-password {
+              color: red;
+              font-size: 16px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+  
+            .signup {
+              color: #005f61;
+              font-size: 16px;
+              font-weight: 500;
+              cursor: pointer;
+            }
+  
+            @media screen and (min-width: 100px) and (max-width: 500px) {
+              p {
+                font-size: 13px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

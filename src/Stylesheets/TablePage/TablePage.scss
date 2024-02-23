@@ -47,8 +47,9 @@
     }
     .table-responsive {
       border: 1px solid #137c7e !important;
-      overflow-y: hidden;
+      /* overflow-y: hidden; */
       padding: 0px;
+      // height: 700px;
     }
 
     .product-modal-main {

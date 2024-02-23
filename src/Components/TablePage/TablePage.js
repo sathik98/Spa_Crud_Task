@@ -238,7 +238,7 @@ const TablePage = () => {
         console.log(error, "error");
 
         toast.error("Failed to create organization");
-        debugger;
+        // debugger;
       });
   };
 
@@ -328,31 +328,38 @@ const TablePage = () => {
   const handleOrganizationEdit = () => {
     const organizationId = formDataEdit._id;
     console.log(organizationId, "eeeddd");
-    setLoading(true);
+    // setLoading(true);
 
     axios({
-      method: "PUT",
+      method: "put",
       url: apikey + `/organizations/${organizationId}`,
       data: formDataEdit,
     })
       .then((res) => {
         console.log("Organization updated:", res.data);
-        debugger;
-        setLoading(false);
+        // debugger;
+        // setLoading(false);
         toast.success("Organization Updated Successfully");
         handleOrganizationEditCloseModal();
       })
       .catch((error) => {
         console.error("Error updating organization:", error);
-        toast.error("Error updating organization");
+        toast.error("Internal Server Error");
         handleOrganizationEditCloseModal();
 
-        debugger;
+        // debugger;
       });
   };
 
+  // const handleChangeEdit = (e) => {
+  //   setFormDataEdit({ ...formDataEdit, [e.target.name]: e.target.value });
+  // };
+
   const handleChangeEdit = (e) => {
-    setFormDataEdit({ ...formDataEdit, [e.target.name]: e.target.value });
+    setFormDataEdit((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   // VIEW
@@ -525,7 +532,8 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                Location <span style={{ color: "red" }}>*</span>
+                                Location:{" "}
+                                <span style={{ color: "red" }}>*</span>
                               </label>
                               <input
                                 type="text"
@@ -549,7 +557,7 @@ const TablePage = () => {
                               <textarea
                                 type="text"
                                 name="description"
-                                placeholder="Location"
+                                placeholder="Description"
                                 class="form-control name_list"
                                 style={{
                                   height: "0px",
@@ -631,7 +639,7 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                Name <span style={{ color: "red" }}>*</span>
+                                Name: <span style={{ color: "red" }}>*</span>
                               </label>
                               <input
                                 type="text"
@@ -693,12 +701,12 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                description{" "}
+                                Description:
                                 <span style={{ color: "red" }}>*</span>
                               </label>
                               <input
                                 className="form-control"
-                                placeholder="SKU"
+                                placeholder="Description"
                                 class="form-control name_email"
                                 type="text"
                                 required
@@ -713,10 +721,11 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                location <span style={{ color: "red" }}>*</span>
+                                Location:{" "}
+                                <span style={{ color: "red" }}>*</span>
                               </label>
                               <textarea
-                                placeholder="Description"
+                                placeholder="Location"
                                 class="form-control name_email"
                                 style={{
                                   height: "0px",
