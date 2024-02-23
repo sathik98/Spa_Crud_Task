@@ -2,7 +2,7 @@
   background-color: #137c7e;
   height: 80px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   font-size: 1.2rem;
 }
@@ -12,7 +12,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  // max-width: 1200px;
   padding: 0 50px;
   z-index: 1;
 }

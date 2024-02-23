@@ -1,14 +1,21 @@
-// Sidebar.js
-
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import "../../Stylesheets/Sidebar/Sidebar.scss";
+import HomeIcon from "@mui/icons-material/Home";
+import BusinessIcon from "@mui/icons-material/Business";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    // localStorage.removeItem("username");
+    localStorage.removeItem("isLoggedIn");
+    // setIsLoggedIn(false);
   };
 
   return (
@@ -18,23 +25,20 @@ const Sidebar = () => {
       </div>
       <ul className="sidebar-menu">
         <li className="sidebar-item">
-          <a href="/" className="sidebar-link">
+          <a href="/TablePage" className="sidebar-link">
+            <HomeIcon />
             Home
           </a>
         </li>
         <li className="sidebar-item">
-          <a href="/about" className="sidebar-link">
-            About
+          <a href="/Organization" className="sidebar-link">
+            <BusinessIcon /> Organization
           </a>
         </li>
+
         <li className="sidebar-item">
-          <a href="/services" className="sidebar-link">
-            Services
-          </a>
-        </li>
-        <li className="sidebar-item">
-          <a href="/contact" className="sidebar-link">
-            Contact
+          <a href="/login" className="sidebar-link" onClick={handleLogout}>
+            <ExitToAppIcon /> Logout
           </a>
         </li>
       </ul>

@@ -12,13 +12,17 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Navbar from "../Navbar/Navbar";
+import Sidebar from "../Sidebar/Sidebar";
+import Loader from "../../Assests/Gif/load3.gif";
+import Swal from "sweetalert2";
 
 const TablePage = () => {
   const [popup, setpopup] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [dtpageindex, setdtPageindex] = useState(1);
   const [dtpagesize, setdtPagesize] = useState(10);
-  const [datacount, setdatacount] = useState();
 
   const [allData, setAllData] = useState([]);
   const [showOrganizationModal, setOrganizationModal] = useState(false);
@@ -28,17 +32,20 @@ const TablePage = () => {
     name: "",
     description: "",
     location: "",
+    number: "",
+    email: "",
   });
 
   const [formDataEdit, setFormDataEdit] = useState({
     name: "",
     description: "",
     location: "",
+    number: "",
+    email: "",
   });
 
   const [organization, setOrganization] = useState(null);
   const [showOrganizationViewModal, setOrganizationViewModal] = useState(false);
-  const [organizationId2, setOrganizationId2] = useState(null);
 
   const pagesize = (arg) => {
     setdtPagesize(arg);
@@ -62,6 +69,40 @@ const TablePage = () => {
                 data-tooltip-content={row.row.original.name}
               >
                 <p>{String(row.row.original.name)}</p>
+              </p>
+            </>
+          );
+        },
+      },
+      {
+        Header: "Email",
+        accessor: "",
+
+        Cell: (row) => {
+          return (
+            <>
+              <p
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={row.row.original.email}
+              >
+                <p>{String(row.row.original.email)}</p>
+              </p>
+            </>
+          );
+        },
+      },
+      {
+        Header: "Number",
+        accessor: "",
+
+        Cell: (row) => {
+          return (
+            <>
+              <p
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={row.row.original.number}
+              >
+                <p>{String(row.row.original.number)}</p>
               </p>
             </>
           );
@@ -107,47 +148,50 @@ const TablePage = () => {
         Cell: (row) => {
           return (
             <>
-              <button
-                className="action-btn"
-                style={{
-                  border: "none",
-                  background: "none",
-                  marginRight: "10px",
-                }}
-                onClick={() =>
-                  handleOpenPopup(row.row.original._id, row.row.original)
-                }
-              >
-                <RemoveRedEyeIcon />
-              </button>
+              <div className="action-wrap">
+                <button
+                  className="action-btn"
+                  style={{
+                    border: "none",
+                    background: "none",
+                    marginRight: "10px",
+                  }}
+                  onClick={() =>
+                    handleOpenPopup(row.row.original._id, row.row.original)
+                  }
+                >
+                  <RemoveRedEyeIcon />
+                </button>
 
-              <button
-                className="action-btn"
-                style={{
-                  border: "none",
-                  background: "none",
-                  marginRight: "10px",
-                }}
-                onClick={() =>
-                  handleOrganizationEditModal(
-                    row.row.original._id,
-                    row.row.original
-                  )
-                }
-              >
-                <EditIcon />
-              </button>
+                <button
+                  className="action-btn"
+                  style={{
+                    border: "none",
+                    background: "none",
+                    marginRight: "10px",
+                  }}
+                  onClick={() =>
+                    handleOrganizationEditModal(
+                      row.row.original._id,
+                      row.row.original
+                    )
+                  }
+                >
+                  <EditIcon />
+                </button>
 
-              <button
-                className="action-btn"
-                style={{
-                  border: "none",
-                  background: "none",
-                }}
-                onClick={(e) => handleDeleteClick(row.row.original._id)}
-              >
-                <DeleteIcon />
-              </button>
+                <button
+                  className="action-btn"
+                  style={{
+                    border: "none",
+                    background: "none",
+                    marginRight: "10px",
+                  }}
+                  onClick={(e) => handleDeleteClick(row.row.original._id)}
+                >
+                  <DeleteIcon />
+                </button>
+              </div>
             </>
           );
         },
@@ -159,6 +203,19 @@ const TablePage = () => {
   // CREATE
   const handleOrganizationCreateModal = () => {
     console.log("Create organization");
+    // setLoading(true);
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.number ||
+      !formData.location ||
+      !formData.description
+    ) {
+      toast.error("All fields are required");
+      return;
+    }
+
     axios
       .post(apikey + "/organizations", formData)
       .then((res) => {
@@ -168,9 +225,11 @@ const TablePage = () => {
           name: "",
           description: "",
           location: "",
+          number: "",
+          email: "",
         });
+        // setLoading(false);
         toast.success("Organization Created Successfully");
-
         setTimeout(() => {
           window.location.reload();
         }, 1000);
@@ -197,6 +256,8 @@ const TablePage = () => {
 
   // GET
   useEffect(() => {
+    setLoading(true);
+
     axios({
       method: "get",
       url: apikey + "/organizations",
@@ -204,6 +265,7 @@ const TablePage = () => {
       .then((response) => {
         setAllData(response.data);
         console.log(response.data, "res");
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error, "err");
@@ -229,25 +291,34 @@ const TablePage = () => {
   };
 
   const handleDeleteClick = (organizationId) => {
-    if (window.confirm("Are you sure you want to delete this organization?")) {
-      handleOrganizationDelete(organizationId);
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to delete this organization?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleOrganizationDelete(organizationId);
+      }
+    });
   };
 
   // EDIT
   const handleOrganizationEditModal = (organizationId, item) => {
     setOrganizationEditModal(true);
-
-    // Populate formDataEdit with organization data
     setFormDataEdit({
       ...formDataEdit,
       name: item.name,
       description: item.description,
       location: item.location,
+      number: item.number,
+      email: item.email,
       _id: organizationId,
     });
     console.log(item, "oooo", organizationId);
-    // debugger;
   };
 
   const handleOrganizationEditCloseModal = () => {
@@ -257,7 +328,7 @@ const TablePage = () => {
   const handleOrganizationEdit = () => {
     const organizationId = formDataEdit._id;
     console.log(organizationId, "eeeddd");
-    debugger;
+    setLoading(true);
 
     axios({
       method: "PUT",
@@ -267,12 +338,9 @@ const TablePage = () => {
       .then((res) => {
         console.log("Organization updated:", res.data);
         debugger;
+        setLoading(false);
         toast.success("Organization Updated Successfully");
         handleOrganizationEditCloseModal();
-
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
       })
       .catch((error) => {
         console.error("Error updating organization:", error);
@@ -293,7 +361,6 @@ const TablePage = () => {
     try {
       const response = await axios.get(apikey + `/organizations/${id}`);
       setOrganization(response.data);
-      setOrganizationId2(id);
       setOrganizationViewModal(true);
     } catch (error) {
       console.error("Error fetching organization:", error);
@@ -306,10 +373,15 @@ const TablePage = () => {
 
   return (
     <div className="your-orders-main-wrapper">
-      {/* <Navbar />  */}
-      <div className="your-order-inner">
+      <Navbar />
+      <Sidebar />
+
+      <div className="row your-order-inner">
+        <div class="col-sm-7 col-auto">
+          <h4 class="page-title">Organization Table</h4>
+        </div>
         <div
-          class="col-sm-12 col"
+          class="col-sm-5 col"
           style={{ display: "flex", justifyContent: "end" }}
         >
           <button
@@ -327,16 +399,23 @@ const TablePage = () => {
             Create
           </button>
         </div>{" "}
-        <div className="table-responsive w-100">
-          <BasicTable
-            columns={columns}
-            data={allData}
-            pagesize={pagesize}
-            pageindex={pageindex}
-            dtpagesize={dtpagesize}
-            dtpageindex={dtpageindex}
-            datacount={datacount}
-          />
+        <div>
+          {loading ? (
+            <div className="loader-wrap">
+              <img src={Loader} alt="Loading..." className="loader-gif" />
+            </div>
+          ) : (
+            <div className="table-responsive w-100">
+              <BasicTable
+                columns={columns}
+                data={allData}
+                pagesize={pagesize}
+                pageindex={pageindex}
+                dtpagesize={dtpagesize}
+                dtpageindex={dtpageindex}
+              />
+            </div>
+          )}
         </div>
         {/* CREATE modal start*/}
         <div
@@ -346,7 +425,9 @@ const TablePage = () => {
         >
           <section className="product-modal-main">
             <div className="modal-header">
-              <h5 className="product-modal-title-modal2">Create ORG</h5>
+              <h5 className="product-modal-title-modal2">
+                Create Organization
+              </h5>
 
               <button
                 type="button"
@@ -388,6 +469,7 @@ const TablePage = () => {
                                 type="text"
                                 name="name"
                                 className="form-control"
+                                required
                                 placeholder="Name"
                                 class="form-control name_list"
                                 value={formData.name}
@@ -399,16 +481,15 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                Description{" "}
-                                <span style={{ color: "red" }}>*</span>
+                                Email: <span style={{ color: "red" }}>*</span>
                               </label>
                               <input
-                                type="text"
-                                name="description"
-                                className="form-control"
-                                placeholder="Description"
-                                class="form-control name_email"
-                                value={formData.description}
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                required
+                                class="form-control name_list"
+                                value={formData.email}
                                 onChange={handleChange}
                               />
                             </div>
@@ -418,19 +499,63 @@ const TablePage = () => {
                               style={{ textAlign: "left" }}
                             >
                               <label>
-                                Location:{" "}
+                                Number: <span style={{ color: "red" }}>*</span>
+                              </label>
+                              <input
+                                type="number"
+                                name="number"
+                                placeholder="Number"
+                                required
+                                class="form-control name_list"
+                                value={formData.number}
+                                onChange={handleChange}
+                                onInput={(e) => {
+                                  e.target.value = Math.max(
+                                    0,
+                                    parseInt(e.target.value)
+                                  )
+                                    .toString()
+                                    .slice(0, 10);
+                                }}
+                              />
+                            </div>
+
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <label>
+                                Location <span style={{ color: "red" }}>*</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="location"
+                                className="form-control"
+                                required
+                                placeholder="Location"
+                                class="form-control name_email"
+                                value={formData.location}
+                                onChange={handleChange}
+                              />
+                            </div>
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <label>
+                                Description:{" "}
                                 <span style={{ color: "red" }}>*</span>
                               </label>
                               <textarea
                                 type="text"
-                                name="location"
-                                placeholder="Description"
-                                class="form-control name_email"
+                                name="description"
+                                placeholder="Location"
+                                class="form-control name_list"
                                 style={{
                                   height: "0px",
                                   padding: "5px",
                                 }}
-                                value={formData.location}
+                                value={formData.description}
                                 onChange={handleChange}
                               />
                             </div>
@@ -470,7 +595,7 @@ const TablePage = () => {
         >
           <section className="product-modal-main">
             <div className="modal-header">
-              <h5 className="product-modal-title-modal2">Edit ORG</h5>
+              <h5 className="product-modal-title-modal2">Edit Organization</h5>
 
               <button
                 type="button"
@@ -512,9 +637,54 @@ const TablePage = () => {
                                 type="text"
                                 name="name"
                                 className="form-control"
+                                required
                                 placeholder="Name"
                                 class="form-control name_list"
                                 value={formDataEdit.name}
+                                onChange={handleChangeEdit}
+                              />
+                            </div>
+
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <label>
+                                Email: <span style={{ color: "red" }}>*</span>
+                              </label>
+                              <input
+                                type="email"
+                                name="email"
+                                placeholder="Email"
+                                required
+                                class="form-control name_list"
+                                value={formDataEdit.email}
+                                onChange={handleChangeEdit}
+                              />
+                            </div>
+
+                            <div
+                              className="col-4"
+                              style={{ textAlign: "left" }}
+                            >
+                              <label>
+                                Number: <span style={{ color: "red" }}>*</span>
+                              </label>
+                              <input
+                                type="number"
+                                name="number"
+                                placeholder="Number"
+                                required
+                                class="form-control name_list"
+                                onInput={(e) => {
+                                  e.target.value = Math.max(
+                                    0,
+                                    parseInt(e.target.value)
+                                  )
+                                    .toString()
+                                    .slice(0, 10);
+                                }}
+                                value={formDataEdit.number}
                                 onChange={handleChangeEdit}
                               />
                             </div>
@@ -531,6 +701,7 @@ const TablePage = () => {
                                 placeholder="SKU"
                                 class="form-control name_email"
                                 type="text"
+                                required
                                 name="description"
                                 value={formDataEdit.description}
                                 onChange={handleChangeEdit}
@@ -625,6 +796,12 @@ const TablePage = () => {
                                 Name
                               </th>
                               <th colspan="1" role="columnheader">
+                                Email
+                              </th>
+                              <th colspan="1" role="columnheader">
+                                Number
+                              </th>
+                              <th colspan="1" role="columnheader">
                                 description
                               </th>
                               <th colspan="1" role="columnheader">
@@ -636,26 +813,27 @@ const TablePage = () => {
                             {organization ? (
                               <tr role="row">
                                 <td role="cell">
-                                  <p
-                                    data-tooltip-id="my-tooltip"
-                                    data-tooltip-content="da d"
-                                  >
+                                  <p data-tooltip-id="my-tooltip">
                                     <p>{organization.name}</p>
                                   </p>
                                 </td>
                                 <td role="cell">
-                                  <p
-                                    data-tooltip-id="my-tooltip"
-                                    data-tooltip-content=" du"
-                                  >
+                                  <p data-tooltip-id="my-tooltip">
+                                    <p>{organization.email}</p>
+                                  </p>
+                                </td>
+                                <td role="cell">
+                                  <p data-tooltip-id="my-tooltip">
+                                    <p>{organization.number}</p>
+                                  </p>
+                                </td>
+                                <td role="cell">
+                                  <p data-tooltip-id="my-tooltip">
                                     <p>{organization.description}</p>
                                   </p>
                                 </td>
                                 <td role="cell">
-                                  <p
-                                    data-tooltip-id="my-tooltip"
-                                    data-tooltip-content=" dug"
-                                  >
+                                  <p data-tooltip-id="my-tooltip">
                                     <p> {organization.location}</p>
                                   </p>
                                 </td>

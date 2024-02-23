@@ -34,7 +34,7 @@ const Login = () => {
   // const handleLogin = async (e) => {
   //   try {
   //     const response = await axios.post(
-  //       "https://crudcrud.com/api/c623e9a366b9427c986e7d8177a66966/login",
+  //       "https://crudcrud.com/api/a2420927d9454c37b8bd6202fad33e72/login",
   //       {
   //         username,
   //         password,
@@ -65,7 +65,6 @@ const Login = () => {
       <div className="login-page-main-wrapper">
         {isLoggedIn ? (
           <div>
-             <Navbar /> 
             {/* <button onClick={handleLogout}>Logout</button> */}
             <TablePage />
           </div>

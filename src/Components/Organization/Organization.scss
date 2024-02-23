@@ -1,0 +1,35 @@
+.organization_page_main_wrap {
+  .your-order-inner {
+    margin: 20px;
+
+    .page-title {
+      font-size: 22px;
+      color: black;
+      text-align: left;
+      // border: 1px solid;
+      padding-left: 50px;    }
+  }
+  .org-wrap {
+    width: 90%;
+    margin: 0 auto;
+    height: 100%;
+    // border: 1px solid;
+
+   
+
+    .card {
+      transition: box-shadow 0.3s ease;
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .no_data {
+      height: 500px;
+      width: 65%;
+      margin: 100px;
+      border: 1px solid #137c7e;
+      border-radius: 10px;
+    }
+  }
+}

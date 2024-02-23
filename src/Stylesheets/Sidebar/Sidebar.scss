@@ -1,48 +1,54 @@
-// Sidebar.scss
-
 .sidebar {
-    position: fixed;
-    top: 0;
-    // left: 300px;
-    width: 300px;
-    height: 100%;
-    background-color: #333;
-    padding-top: 80px;
-    transition: all 0.3s ease;
-    z-index: 999;
-  }
-  
-  .sidebar.active {
-    left: 0;
-  }
-  
-  .sidebar-toggle {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
+  position: fixed;
+  top: 50;
+  left: -230px;
+  width: 300px;
+  height: 100%;
+  background-color: #137c7e;
+  padding-top: 80px;
+  transition: all 0.3s ease;
+  z-index: 999;
+  border-top: 1px solid white;
+}
+
+.sidebar.active {
+  left: 0;
+}
+
+.sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 20px;
+}
+
+.sidebar-link {
+  display: flex;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  margin: 10px;
+  justify-content: left;
+  gap: 10px;
+  align-items: center;
+  svg {
     color: #fff;
-    cursor: pointer;
   }
-  
-  .sidebar-menu {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar-item {
-    margin-bottom: 20px;
-  }
-  
-  .sidebar-link {
-    display: block;
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 20px;
-    transition: all 0.3s ease;
-  }
-  
-  .sidebar-link:hover {
-    background-color: #555;
-  }
-  
+}
+
+.sidebar-link:hover {
+  background-color: #fff;
+  color: #137c7e;
+}

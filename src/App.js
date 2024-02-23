@@ -6,7 +6,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import PrivateRoutes from "./Components/privateroutes";
 import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import Organization from "./Components/Organization/Organization";
 function App() {
   var logintest = localStorage.getItem("login");
 
@@ -25,6 +25,9 @@ function App() {
             <Routes>
               <Route element={<PrivateRoutes />} path="/" exact />
               <Route path="/login" element={<Login />} />
+              <Route element={<TablePage />} path="/TablePage"></Route>
+
+              <Route element={<Organization />} path="/Organization"></Route>
             </Routes>
           )}
         </>

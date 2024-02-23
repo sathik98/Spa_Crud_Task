@@ -19,19 +19,21 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-container">
-        <img src={org_logo} className="org_logo" alt="logo"></img>
+        <a href="/TablePage" className="nav-links">
+          <img src={org_logo} className="org_logo" alt="logo"></img>
+        </a>
         <div className="menu-icon" onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </div>
         <ul className={isOpen ? "nav-menu active" : "nav-menu"}>
           <li className="nav-item">
-            <a href="/" className="nav-links">
+            <a href="/TablePage" className="nav-links">
               Home
             </a>
           </li>
           <li className="nav-item">
-            <a href="/about" className="nav-links">
-              About
+            <a href="/Organization" className="nav-links">
+              Organization
             </a>
           </li>
           <li className="nav-item">
